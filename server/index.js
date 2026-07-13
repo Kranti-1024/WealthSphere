@@ -29,9 +29,14 @@ app.use(helmet({
   contentSecurityPolicy: false, // Disable CSP in dev (upgrade-insecure-requests breaks local proxy)
 }));
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? process.env.CLIENT_URL 
-    : true,
+  origin: function (origin, callback) {
+    // Allow Vercel preview domains, the primary CLIENT_URL, and no origin (like mobile apps/curl)
+    if (!origin || origin.includes('vercel.app') || origin === process.env.CLIENT_URL) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true // Required for sending cookies over CORS
 }));
 

@@ -26,7 +26,8 @@ const AppContent = () => {
   React.useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await fetch('/api/auth/status', { credentials: 'include' });
+        const apiBase = import.meta.env.VITE_API_URL || '';
+        const response = await fetch(`${apiBase}/api/auth/status`, { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
           if (data.isAuthenticated) {

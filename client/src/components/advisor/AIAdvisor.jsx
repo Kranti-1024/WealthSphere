@@ -154,6 +154,7 @@ const AIAdvisor = () => {
       const res = await fetch(`${API_URL}/api/advisor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           message: userText,
           financialContext: {

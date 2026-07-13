@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String
+  name          String
+  customerId    String?
+  riskProfile   String?
+  monthlyIncome Float?
+  netWorth      Float?
+  phone         String?
+  branch        String?
+  accountType   String?
+  lastLogin     DateTime?
+  twoFactorEnabled Boolean @default(false)
+  alertsEnabled    Boolean @default(true)
+  pinHash          String?
+
+  portfolios    PortfolioItem[]
+  goals         Goal[]
+  transactions  Transaction[]
+  spending      SpendingCategory[]
+  chats         ChatHistory[]
+  snapshots     NetWorthSnapshot[]
+  notifications Notification[]
+  savingsAccounts SavingsAccount[]
+  documents     Document[]
+}
+
+model PortfolioItem {
+  id             String @id @default(uuid())
+  userId         String
+  assetName      String
+  assetType      String
+  investedAmount Float
+  currentValue   Float
+  returns        Float?
+  units          Float?
+  buyPrice       Float?
+  currentPrice   Float?
+  symbol         String?
+  mfSchemeCode   String?
+
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Goal {
+  id              String   @id @default(uuid())
+  userId          String
+  name            String
+  targetAmount    Float
+  currentAmount   Float
+  deadline        DateTime?
+  icon            String?
+  monthlyRequired Float?
+
+  user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SpendingCategory {
+  id         String @id @default(uuid())
+  userId     String
+  category   String
+  amount     Float
+  percentage Float?
+  color      String?
+  month      String?
+
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Transaction {
+  id       String   @id @default(uuid())
+  userId   String
+  title    String
+  amount   Float
+  type     String   // "credit" or "debit"
+  category String
+  date     DateTime @default(now())
+  status   String   @default("completed")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ChatHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  role      String   // "user" or "assistant"
+  message   String
+  timestamp DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model NetWorthSnapshot {
+  id       String   @id @default(uuid())
+  userId   String
+  value    Float
+  income   Float
+  expenses Float
+  savings  Float
+  date     DateTime
+  
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id      String   @id @default(uuid())
+  userId  String
+  type    String          // "alert", "info", "success", "warning"
+  title   String
+  message String
+  read    Boolean  @default(false)
+  link    String?
+  time    DateTime @default(now())
+  
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SavingsAccount {
+  id      String @id @default(uuid())
+  userId  String
+  name    String
+  balance Float
+  rate    Float
+  
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id           String   @id @default(uuid())
+  userId       String
+  title        String
+  documentType String   // "PAN", "Aadhar", "Tax Return", "Insurance", "Other"
+  fileName     String
+  fileUrl      String
+  fileSize     Int
+  uploadDate   DateTime @default(now())
+  status       String   @default("verified")
+  
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

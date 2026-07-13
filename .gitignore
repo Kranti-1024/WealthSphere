@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Database
+*.db
+*.db-journal
+
+# Build output
+client/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dev artifacts
+read_docx.js
+read_docx.py
+refactor.js
+plan.zip
+readme.zip
+plan_extracted/
+readme_extracted/
+extracted_text.txt
+extracted_v2.txt

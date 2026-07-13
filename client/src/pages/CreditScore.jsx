@@ -82,9 +82,7 @@ const CreditScore = () => {
       const token = localStorage.getItem('token');
       // Fetch the PDF blob using the relative API route (which Vite proxies)
       const response = await fetch('/api/credit/report/download', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        credentials: 'include'
       });
       
       if (!response.ok) throw new Error("Failed to fetch PDF report");

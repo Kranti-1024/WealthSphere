@@ -126,7 +126,7 @@ router.post('/login',
     res.cookie('token', token, {
       httpOnly: true, // Prevents XSS from reading the cookie
       secure: process.env.NODE_ENV === 'production', 
-      sameSite: 'strict', 
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Must be 'none' for cross-domain cookie sending!
       maxAge: 3600000 // 1 hour
     });
 

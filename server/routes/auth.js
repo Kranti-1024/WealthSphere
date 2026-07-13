@@ -2,11 +2,9 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../lib/prisma');
 const { body, validationResult } = require('express-validator');
 const { loginRateLimiter } = require('../middleware/rateLimiter');
-
-const prisma = new PrismaClient();
 
 // Secret key for JWT signing. In production, this must be a strong random string in .env
 const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_idbi_wealthsphere_key_2026';

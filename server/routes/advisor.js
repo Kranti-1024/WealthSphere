@@ -1,11 +1,10 @@
 const express = require('express');
 const Groq = require('groq-sdk');
 const { advisorRateLimiter } = require('../middleware/rateLimiter');
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../lib/prisma');
 const { body, validationResult } = require('express-validator');
 
 const router = express.Router();
-const prisma = new PrismaClient();
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
 });

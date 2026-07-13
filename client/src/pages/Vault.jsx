@@ -104,9 +104,10 @@ const Vault = () => {
     }
   };
 
-  const handleDownload = (fileUrl, fileName) => {
+    const handleDownload = (fileUrl, fileName) => {
     // Construct the full URL
-    const url = `/api${fileUrl}`;
+    const apiBase = import.meta.env.VITE_API_URL || '';
+    const url = `${apiBase}/api${fileUrl}`;
     
     // Create a temporary anchor element
     const a = document.createElement('a');

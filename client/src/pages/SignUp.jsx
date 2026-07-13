@@ -5,6 +5,8 @@ import { toast } from 'react-hot-toast';
 import CyberBackground from '../components/CyberBackground';
 import FadeIn from '../components/FadeIn';
 
+import { API_BASE_URL } from '../hooks/useAPI';
+
 const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -28,7 +30,7 @@ const SignUp = () => {
     
     setIsSigningUp(true);
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })

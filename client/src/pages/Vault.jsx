@@ -104,7 +104,7 @@ const Vault = () => {
     }
   };
 
-    const handleDownload = (fileUrl, fileName) => {
+  const handleDownload = (fileUrl, fileName) => {
     // Construct the full URL
     const apiBase = import.meta.env.VITE_API_URL || '';
     const url = `${apiBase}/api${fileUrl}`;

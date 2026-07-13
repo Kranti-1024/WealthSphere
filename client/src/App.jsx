@@ -17,6 +17,7 @@ import CreditScore from './pages/CreditScore';
 import SignUp from './pages/SignUp';
 
 import { DataProvider } from './context/DataContext';
+import { Toaster } from 'react-hot-toast';
 
 const AppContent = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,17 +48,21 @@ const AppContent = () => {
 
   if (!isLoggedIn) {
     return (
-      <Routes>
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
+      <>
+        <Toaster position="top-right" />
+        <Routes>
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </>
     );
   }
 
   return (
     <DataProvider isAuthenticated={isLoggedIn}>
       <PageWrapper isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
+        <Toaster position="top-right" />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
